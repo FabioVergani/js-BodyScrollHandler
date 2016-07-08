@@ -1,44 +1,31 @@
-
-
-//console.log('html.scrollHeight:'+h.scrollHeight,'html.clientHeight:'+h.clientHeight,'body.scrollTop:'+i,(h.scrollHeight-(i+h.clientHeight)));
-
 window.onload=function(){
 
- var e=window.document,
- handleScroll=function(evt){
-	var e=evt.target.body, o=e.scroll, callback=o.callback,  i=o.pos=e.scrollTop, j, h, f, g;
-	if(callback.Run!==true){
-		j=o.posPrev;
-		o.posPrev=i;
-		o.direction=(g=i>j)?'down':'up';
-		h=e.ownerDocument.documentElement;
-		f=function(){callback.Run=true;g(o);callback.Run=false;};
-
-		if(g&&((h.scrollHeight-(i+h.clientHeight))===0)){
-			window.clearTimeout(o.handler.ReachBottom);
-			g=callback.ReachBottom;
-			o.handler.ReachBottom=window.setTimeout(f,200);
-		};
+ var handleScroll=function(evt){
+	var e=evt.target.body,
+	r=e.ownerDocument.documentElement,
+	o=e.scroll,y=o.y,j=y.prev,i=y.pos=e.scrollTop,
+	run=function(x){var e=x;if(e.run!==true){clearTimeout(e.i);e.i=setTimeout(e.f,e.s);};};
+	y.prev=i;
+	if(i>j){//direction:down
+	 if((r.scrollHeight-(i+r.clientHeight))===0){
+		run(o.ReachBottom);
+	 };
 	};
  };
-
-//#
- e.body.scroll={
-	pos:null,
-	posPrev:0,
-	handler:{
-		ReachBottom:null
+ //
+ window.document.body.scroll={
+	ReachBottom:{
+	 f:function(){
+		var s=document.body.scroll, e=s.ReachBottom;
+		e.run=true;
+		console.log(JSON.stringify(s));
+		e.run=false;
+	 },
+	 s:200
 	},
-	callback:{
-		Run:false,
-		ReachBottom:function(bs){//body.scroll
-		 console.log(JSON.stringify(bs));
-		}
-	}
+	y:{pos:null,prev:0}
  };
  //
- e.addEventListener('scroll',handleScroll);
- e.addEventListener('touchmove',handleScroll);
+ window.document.addEventListener('scroll',handleScroll);
+ window.document.addEventListener('touchmove',handleScroll);
 };
-
-
