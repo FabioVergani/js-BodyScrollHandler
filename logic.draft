@@ -1,0 +1,44 @@
+
+
+//console.log('html.scrollHeight:'+h.scrollHeight,'html.clientHeight:'+h.clientHeight,'body.scrollTop:'+i,(h.scrollHeight-(i+h.clientHeight)));
+
+window.onload=function(){
+
+ var e=window.document,
+ handleScroll=function(evt){
+	var e=evt.target.body, o=e.scroll, callback=o.callback,  i=o.pos=e.scrollTop, j, h, f, g;
+	if(callback.Run!==true){
+		j=o.posPrev;
+		o.posPrev=i;
+		o.direction=(g=i>j)?'down':'up';
+		h=e.ownerDocument.documentElement;
+		f=function(){callback.Run=true;g(o);callback.Run=false;};
+
+		if(g&&((h.scrollHeight-(i+h.clientHeight))===0)){
+			window.clearTimeout(o.handler.ReachBottom);
+			g=callback.ReachBottom;
+			o.handler.ReachBottom=window.setTimeout(f,200);
+		};
+	};
+ };
+
+//#
+ e.body.scroll={
+	pos:null,
+	posPrev:0,
+	handler:{
+		ReachBottom:null
+	},
+	callback:{
+		Run:false,
+		ReachBottom:function(bs){//body.scroll
+		 console.log(JSON.stringify(bs));
+		}
+	}
+ };
+ //
+ e.addEventListener('scroll',handleScroll);
+ e.addEventListener('touchmove',handleScroll);
+};
+
+
